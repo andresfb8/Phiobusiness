@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHIO Business | Bienestar Corporativo, Humano y Rentable</title>
+    <meta name="description" content="PHIO Business transforma la salud física, mental y nutricional de tus empleados en una ventaja estratégica medible. Wellness corporativo integral.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        phioBlue: '#164194',
+                        phioGreen: '#afca0b',
+                        phioDark: '#0e2454',
+                        canvas: '#FBF9F5',
+                        sand: '#EFE8DC',
+                        sage: '#DCE3D0',
+                        ink: '#2A2A28',
+                        clay: '#C98A2B',
+                    },
+                    fontFamily: {
+                        sans: ['Figtree', 'system-ui', 'sans-serif'],
+                        narrow: ['"PT Sans Narrow"', 'sans-serif'],
+                        serif: ['Fraunces', 'Georgia', 'serif'],
+                    },
+                    boxShadow: {
+                        soft: '0 18px 50px -20px rgba(14, 36, 84, 0.22)',
+                        glow: '0 24px 70px -28px rgba(22, 65, 148, 0.45)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&family=PT+Sans+Narrow:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root { --ease: cubic-bezier(0.22, 1, 0.36, 1); }
+
+        html, body { background-color: #FBF9F5; }
+        body { color: #2A2A28; -webkit-font-smoothing: antialiased; }
+
+        .font-narrow { font-family: 'PT Sans Narrow', sans-serif; }
+
+        /* Eyebrow / kicker */
+        .eyebrow {
+            font-family: 'PT Sans Narrow', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.28em;
+            font-weight: 700;
+        }
+
+        /* Grain texture overlay on the whole page */
+        .grain::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Blue-tinted photography treatment (cohesion with brand) */
+        .tint { position: relative; overflow: hidden; }
+        .tint > img { filter: grayscale(55%) contrast(1.04) brightness(1.02); }
+        .tint::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(155deg, rgba(22,65,148,0.40) 0%, rgba(14,36,84,0.18) 55%, rgba(175,202,11,0.10) 100%);
+            mix-blend-mode: multiply;
+            pointer-events: none;
+        }
+
+        /* Organic blob mask for hero image */
+        .blob-mask {
+            border-radius: 56% 44% 58% 42% / 48% 52% 48% 52%;
+        }
+
+        /* Soft pill mask alt */
+        .arch { border-radius: 9999px 9999px 28px 28px; }
+
+        /* Triple chevron drift */
+        .chev-drift { animation: drift 2.6s var(--ease) infinite; }
+        .chev-drift i:nth-child(2) { animation-delay: 0.12s; }
+        .chev-drift i:nth-child(3) { animation-delay: 0.24s; }
+        @keyframes drift {
+            0%, 100% { transform: translateX(0); opacity: 0.9; }
+            50% { transform: translateX(7px); opacity: 1; }
+        }
+
+        /* Hero soft float */
+        .float-slow { animation: floaty 9s ease-in-out infinite; }
+        @keyframes floaty { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-16px) } }
+
+        /* Scroll reveals */
+        .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+        .reveal.is-visible { opacity: 1; transform: none; }
+        .reveal[data-delay="1"] { transition-delay: 0.08s; }
+        .reveal[data-delay="2"] { transition-delay: 0.16s; }
+        .reveal[data-delay="3"] { transition-delay: 0.24s; }
+        .reveal[data-delay="4"] { transition-delay: 0.32s; }
+
+        /* Scroll progress bar */
+        #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; z-index: 60;
+            background: linear-gradient(90deg, #164194, #afca0b); transition: width 0.1s linear; }
+
+        /* Slider styling */
+        input[type=range].phio-range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 9999px; background: rgba(255,255,255,0.22); outline: none; }
+        input[type=range].phio-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; border-radius: 50%; background: #afca0b; border: 5px solid #fff; box-shadow: 0 6px 16px rgba(0,0,0,0.25); cursor: pointer; transition: transform 0.15s ease; }
+        input[type=range].phio-range::-webkit-slider-thumb:hover { transform: scale(1.08); }
+        input[type=range].phio-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #afca0b; border: 5px solid #fff; cursor: pointer; }
+
+        /* Card lift */
+        .lift { transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease); }
+        .lift:hover { transform: translateY(-8px); }
+
+        /* Underline links in nav */
+        .navlink { position: relative; }
+        .navlink::after { content: ''; position: absolute; left: 0; bottom: -6px; height: 2px; width: 0; background: #afca0b; transition: width 0.35s var(--ease); }
+        .navlink:hover::after { width: 100%; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+            .chev-drift, .float-slow { animation: none !important; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SNBYQRHFK8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-SNBYQRHFK8');
+    </script>
+</head>
+<body class="font-sans bg-canvas text-ink overflow-x-hidden grain">
+
+    <div id="progress"></div>
+
+    <!-- ============ NAV ============ -->
+    <header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#inicio" class="flex items-center" aria-label="PHIO Business inicio">
+                <img id="nav-logo" src="Sin título-1.png" alt="PHIO Business" class="w-auto object-contain transition-all duration-500" style="height:3.5rem" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <span style="display:none" class="items-baseline gap-1">
+                    <span class="font-narrow font-bold text-2xl tracking-tight text-phioBlue">lPHi<span class="relative">O</span></span>
+                    <span class="font-narrow text-xs tracking-[0.35em] uppercase text-phioBlue/70 ml-1">business</span>
+                </span>
+            </a>
+
+            <nav class="hidden lg:flex items-center gap-9 text-[15px] font-medium text-ink/70">
+                <a href="#nosotros" class="navlink hover:text-phioBlue transition-colors">Nosotros</a>
+                <a href="#reto" class="navlink hover:text-phioBlue transition-colors">El reto</a>
+                <a href="#impacto" class="navlink hover:text-phioBlue transition-colors">Impacto</a>
+                <a href="#metodo" class="navlink hover:text-phioBlue transition-colors">Método</a>
+                <a href="#planes" class="navlink hover:text-phioBlue transition-colors">Planes</a>
+            </nav>
+
+            <div class="hidden lg:flex">
+                <a href="#contacto" class="inline-flex items-center gap-2 bg-phioGreen text-phioBlue hover:bg-phioBlue hover:text-white font-semibold py-2.5 px-6 rounded-full transition-all duration-300 shadow-soft">
+                    Solicitar demo <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <button id="mobile-menu-btn" class="lg:hidden text-phioBlue text-2xl" aria-label="Abrir menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden bg-canvas/98 backdrop-blur-md border-t border-sand px-6 py-5 space-y-1 shadow-soft">
+            <a href="#nosotros" class="block text-lg font-medium text-ink/80 hover:text-phioBlue py-2.5">Nosotros</a>
+            <a href="#reto" class="block text-lg font-medium text-ink/80 hover:text-phioBlue py-2.5">El reto</a>
+            <a href="#impacto" class="block text-lg font-medium text-ink/80 hover:text-phioBlue py-2.5">Impacto</a>
+            <a href="#metodo" class="block text-lg font-medium text-ink/80 hover:text-phioBlue py-2.5">Método</a>
+            <a href="#planes" class="block text-lg font-medium text-ink/80 hover:text-phioBlue py-2.5">Planes</a>
+            <a href="#contacto" class="block text-center bg-phioGreen text-phioBlue font-semibold py-3 rounded-full mt-3">Solicitar demo</a>
+        </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section id="inicio" class="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
+        <!-- decorative blobs -->
+        <div class="absolute top-24 -left-40 w-[28rem] h-[28rem] bg-sage/60 rounded-full blur-3xl -z-0"></div>
+        <div class="absolute -bottom-24 right-0 w-[26rem] h-[26rem] bg-phioGreen/10 rounded-full blur-3xl -z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-14 items-center relative z-10">
+            <div class="lg:col-span-6 space-y-7">
+                <div class="reveal inline-flex items-center gap-3 bg-white/70 backdrop-blur border border-sand text-phioBlue px-4 py-2 rounded-full text-xs">
+                    <span class="chev-drift flex text-phioGreen text-[10px]">
+                        <i class="fa-solid fa-chevron-right"></i><i class="fa-solid fa-chevron-right -ml-1"></i><i class="fa-solid fa-chevron-right -ml-1"></i>
+                    </span>
+                    <span class="eyebrow text-[11px] text-phioBlue/80">Bienestar 360° · Salud, mente y nutrición</span>
+                </div>
+
+                <h1 class="reveal text-5xl sm:text-6xl lg:text-7xl font-extrabold text-phioBlue leading-[0.98] tracking-tight" data-delay="1">
+                    Bienestar que se
+                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-phioBlue via-phioBlue to-phioGreen">siente y se mide.</span>
+                </h1>
+
+                <p class="reveal text-lg text-ink/70 max-w-xl leading-relaxed" data-delay="2">
+                    Cuidamos la salud física, mental y nutricional de tu equipo y la convertimos en una ventaja
+                    estratégica real. Personas más sanas, empresas más rentables — sin perder el lado humano.
+                </p>
+
+                <div class="reveal flex flex-col sm:flex-row gap-4 pt-2" data-delay="3">
+                    <a href="#impacto" class="inline-flex items-center justify-center gap-2 bg-phioBlue text-white hover:bg-phioDark font-semibold py-4 px-8 rounded-full transition-all duration-300 shadow-glow">
+                        Ver el impacto <i class="fa-solid fa-arrow-trend-up"></i>
+                    </a>
+                    <a href="#contacto" class="inline-flex items-center justify-center gap-2 bg-white text-ink hover:bg-sand border border-sand font-semibold py-4 px-8 rounded-full transition-all duration-300">
+                        Hablar con el equipo
+                    </a>
+                </div>
+
+                <div class="reveal flex items-center gap-8 pt-6 text-sm text-ink/55" data-delay="4">
+                    <div><span class="block font-narrow text-3xl font-bold text-phioBlue">-36%</span> absentismo</div>
+                    <div class="w-px h-10 bg-sand"></div>
+                    <div><span class="block font-narrow text-3xl font-bold text-phioBlue">+11%</span> productividad</div>
+                    <div class="w-px h-10 bg-sand"></div>
+                    <div><span class="block font-narrow text-3xl font-bold text-phioBlue">360°</span> salud integral</div>
+                </div>
+            </div>
+
+            <!-- Hero image -->
+            <div class="lg:col-span-6 relative reveal" data-delay="2">
+                <div class="relative mx-auto max-w-md lg:max-w-none">
+                    <div class="tint blob-mask shadow-glow border-[6px] border-white float-slow">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=900&q=80" alt="Equipo realizando actividad física saludable" class="w-full h-[440px] lg:h-[540px] object-cover">
+                    </div>
+
+                    <!-- floating badge -->
+                    <div class="absolute -bottom-6 -left-4 sm:left-6 bg-white rounded-2xl shadow-soft border border-sand p-5 flex items-center gap-4 max-w-[16rem]">
+                        <div class="w-12 h-12 rounded-xl bg-sage flex items-center justify-center text-phioBlue text-xl">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-phioBlue leading-tight">Productividad activa</p>
+                            <p class="text-xs text-ink/60">Menos bajas, más energía diaria.</p>
+                        </div>
+                    </div>
+
+                    <!-- floating chevron accent -->
+                    <div class="absolute -top-4 -right-2 chev-drift flex text-phioGreen text-2xl drop-shadow">
+                        <i class="fa-solid fa-chevron-right"></i><i class="fa-solid fa-chevron-right -ml-2"></i><i class="fa-solid fa-chevron-right -ml-2"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- wave divider into sand -->
+    <div class="-mt-1 text-sand" aria-hidden="true">
+        <svg viewBox="0 0 1440 80" fill="currentColor" preserveAspectRatio="none" class="w-full h-12 sm:h-20"><path d="M0,40 C360,90 720,0 1080,30 C1260,45 1380,55 1440,48 L1440,80 L0,80 Z"></path></svg>
+    </div>
+
+    <!-- ============ NOSOTROS / PILARES ============ -->
+    <section id="nosotros" class="bg-sand py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mb-16 reveal">
+                <p class="eyebrow text-phioGreen text-sm mb-4">Nuestra filosofía</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">Tres pilares que nos hacen únicos</h2>
+                <p class="mt-5 text-lg text-ink/70">No vendemos rutinas sueltas. Diseñamos un ecosistema de bienestar a medida de cada organización, donde cuidar a las personas y cuidar la cuenta de resultados son la misma cosa.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Pilar 1 -->
+                <div class="reveal lift bg-canvas rounded-3xl p-8 shadow-soft border border-white/60" data-delay="1">
+                    <div class="w-14 h-14 rounded-2xl bg-phioBlue/10 text-phioBlue flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-phioBlue mb-3">Rentabilidad real</h3>
+                    <p class="text-ink/70 leading-relaxed">Un retorno económico directo y medible. Un equipo sano reduce bajas y multiplica el rendimiento del día a día.</p>
+                </div>
+                <!-- Pilar 2 -->
+                <div class="reveal lift bg-canvas rounded-3xl p-8 shadow-soft border border-white/60" data-delay="2">
+                    <div class="w-14 h-14 rounded-2xl bg-phioGreen/15 text-phioBlue flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-phioBlue mb-3">Máxima escalabilidad</h3>
+                    <p class="text-ink/70 leading-relaxed">Lo mismo para 15 personas que para 5.000 en sedes distribuidas o en remoto. PHIO evoluciona contigo.</p>
+                </div>
+                <!-- Pilar 3 -->
+                <div class="reveal lift bg-canvas rounded-3xl p-8 shadow-soft border border-white/60" data-delay="3">
+                    <div class="w-14 h-14 rounded-2xl bg-sage text-phioBlue flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-phioBlue mb-3">Foco 100% humano</h3>
+                    <p class="text-ink/70 leading-relaxed">Adaptamos ritmo, nutrición y pausas a cada puesto real: oficina, operario o fuerza comercial. Personas primero.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ EL RETO ============ -->
+    <section id="reto" class="bg-canvas py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+            <!-- image -->
+            <div class="lg:col-span-5 reveal">
+                <div class="tint arch shadow-soft border-[6px] border-white">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Persona con fatiga en su puesto de trabajo" class="w-full h-[460px] object-cover">
+                </div>
+            </div>
+
+            <!-- text + kpis -->
+            <div class="lg:col-span-7 space-y-7">
+                <div class="reveal">
+                    <p class="eyebrow text-clay text-sm mb-4">La realidad laboral</p>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">
+                        El sedentarismo le cuesta <span class="text-clay">454&nbsp;€</span> al año por empleado
+                    </h2>
+                    <p class="mt-5 text-lg text-ink/70">No es un problema de voluntad, es de contexto. Dolores de espalda, fatiga crónica y desgaste mental disparan el absentismo. Esta es la radiografía de una empresa media en España:</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="reveal flex items-start gap-4 bg-sand/70 p-5 rounded-2xl" data-delay="1">
+                        <span class="font-narrow text-4xl font-bold text-clay leading-none">77%</span>
+                        <p class="text-sm text-ink/70"><span class="font-semibold text-ink">Dolores físicos</span> por posturas estáticas mantenidas.</p>
+                    </div>
+                    <div class="reveal flex items-start gap-4 bg-sand/70 p-5 rounded-2xl" data-delay="2">
+                        <span class="font-narrow text-4xl font-bold text-clay leading-none">39d</span>
+                        <p class="text-sm text-ink/70"><span class="font-semibold text-ink">Duración media</span> de una baja. Rompe la estabilidad del equipo.</p>
+                    </div>
+                    <div class="reveal flex items-start gap-4 bg-sand/70 p-5 rounded-2xl" data-delay="3">
+                        <span class="font-narrow text-4xl font-bold text-clay leading-none">23%</span>
+                        <p class="text-sm text-ink/70"><span class="font-semibold text-ink">Origen mental:</span> estrés, desgaste y burnout.</p>
+                    </div>
+                    <div class="reveal flex items-start gap-4 bg-sand/70 p-5 rounded-2xl" data-delay="4">
+                        <span class="font-narrow text-4xl font-bold text-clay leading-none">3.6x</span>
+                        <p class="text-sm text-ink/70"><span class="font-semibold text-ink">Inactividad física:</span> multiplica los días de baja.</p>
+                    </div>
+                </div>
+                <p class="reveal text-sm text-ink/50 italic">La buena noticia: todo esto es prevenible. Y ahí es donde entra PHIO.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ IMPACTO / ROI ALIGERADO ============ -->
+    <section id="impacto" class="relative bg-phioBlue text-white py-20 lg:py-28 overflow-hidden">
+        <div class="absolute -top-28 -left-24 w-96 h-96 bg-phioGreen/15 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-28 -right-24 w-96 h-96 bg-phioDark/50 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="max-w-3xl mx-auto text-center mb-14 reveal">
+                <p class="eyebrow text-phioGreen text-sm mb-4">La oportunidad</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">¿Cuánto puede recuperar tu empresa?</h2>
+                <p class="mt-5 text-lg text-blue-100/80">Mueve el número de empleados y descubre el ahorro anual estimado que PHIO puede devolver a tu cuenta de resultados. Sin alarmas: solo potencial.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- control -->
+                <div class="lg:col-span-5 reveal">
+                    <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-8 space-y-6">
+                        <div class="flex justify-between items-end">
+                            <label for="employees-range" class="text-sm font-semibold text-blue-100 uppercase tracking-wide">Tamaño de tu equipo</label>
+                            <span id="employees-val" class="font-narrow text-4xl font-bold text-phioGreen leading-none">250</span>
+                        </div>
+                        <input id="employees-range" type="range" min="10" max="2500" step="10" value="250" class="phio-range w-full">
+                        <div class="flex justify-between text-xs text-blue-200/70">
+                            <span>10</span><span>2.500 empleados</span>
+                        </div>
+                        <p class="text-xs text-blue-200/60 pt-2 border-t border-white/10">Cálculo sobre salario medio bruto y tasa de absentismo media en España. Personalizamos las cifras en la auditoría.</p>
+                    </div>
+                </div>
+
+                <!-- result -->
+                <div class="lg:col-span-7 reveal" data-delay="1">
+                    <div class="bg-gradient-to-br from-phioDark to-phioBlue rounded-3xl p-8 sm:p-10 border border-white/10 shadow-2xl">
+                        <p class="text-sm font-semibold text-phioGreen uppercase tracking-wider mb-2">Ahorro anual estimado con PHIO</p>
+                        <p id="saving-net" class="font-narrow text-5xl sm:text-6xl font-bold text-phioGreen leading-none">41.310 €</p>
+                        <p class="text-sm text-blue-100/70 mt-3">Un retorno aproximado de <strong class="text-white">1:4,8</strong> por cada euro invertido en bienestar.</p>
+
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="bg-white/5 rounded-2xl p-4 text-center">
+                                <span class="block text-xs text-blue-200/70 mb-1">Coste actual estimado</span>
+                                <span id="cost-current" class="font-narrow text-2xl font-bold text-white">114.750 €</span>
+                            </div>
+                            <div class="bg-white/5 rounded-2xl p-4 text-center">
+                                <span class="block text-xs text-blue-200/70 mb-1">Reducción de absentismo</span>
+                                <span class="font-narrow text-2xl font-bold text-phioGreen">hasta -36%</span>
+                            </div>
+                        </div>
+
+                        <a href="#contacto" class="mt-8 inline-flex items-center gap-3 bg-phioGreen text-phioBlue hover:bg-white font-semibold px-7 py-3.5 rounded-full transition-all duration-300">
+                            Solicitar auditoría de salud <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SOLUCIÓN 360 ============ -->
+    <section class="bg-canvas py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+                <p class="eyebrow text-phioGreen text-sm mb-4">Bienestar 360°</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">Un enfoque holístico e integral</h2>
+                <p class="mt-5 text-lg text-ink/70">La salud no se divide. Integramos las tres verticales fundamentales del bienestar humano en una única experiencia coordinada.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+                <!-- Deporte -->
+                <article class="reveal lift bg-white rounded-3xl overflow-hidden shadow-soft border border-sand flex flex-col" data-delay="1">
+                    <div class="tint h-60">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=700&q=80" alt="Entrenamiento físico personalizado" class="w-full h-full object-cover" loading="lazy">
+                        <span class="absolute top-4 left-4 z-10 eyebrow text-[10px] bg-white/90 text-phioBlue px-3 py-1.5 rounded-full">Actividad física</span>
+                    </div>
+                    <div class="p-7 flex-grow space-y-4">
+                        <h3 class="text-xl font-bold text-phioBlue">Entrenamiento personalizado</h3>
+                        <p class="text-sm text-ink/70 leading-relaxed">Desde nuestra app, cada persona tiene rutinas adaptadas a su condición inicial y a la fatiga propia de su puesto.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Entrenador personal en el bolsillo</li>
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Soporte continuo y directo</li>
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Adaptado a lesiones habituales</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- Nutrición -->
+                <article class="reveal lift bg-white rounded-3xl overflow-hidden shadow-soft border border-sand flex flex-col" data-delay="2">
+                    <div class="tint h-60">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=700&q=80" alt="Alimentación saludable y equilibrada" class="w-full h-full object-cover" loading="lazy">
+                        <span class="absolute top-4 left-4 z-10 eyebrow text-[10px] bg-phioGreen text-phioBlue px-3 py-1.5 rounded-full">Alimentación</span>
+                    </div>
+                    <div class="p-7 flex-grow space-y-4">
+                        <h3 class="text-xl font-bold text-phioBlue">Asesoramiento nutricional</h3>
+                        <p class="text-sm text-ink/70 leading-relaxed">Biblioteca de recetas, menús a medida y estrategias para mejorar la concentración y la energía a lo largo del día.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Recetas inteligentes</li>
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Menús semanales adaptados</li>
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Nutrición para el rendimiento</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <!-- Mindfulness -->
+                <article class="reveal lift bg-white rounded-3xl overflow-hidden shadow-soft border border-sand flex flex-col" data-delay="3">
+                    <div class="tint h-60">
+                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=700&q=80" alt="Sesión de mindfulness y relajación" class="w-full h-full object-cover" loading="lazy">
+                        <span class="absolute top-4 left-4 z-10 eyebrow text-[10px] bg-phioDark text-white px-3 py-1.5 rounded-full">Salud mental</span>
+                    </div>
+                    <div class="p-7 flex-grow space-y-4">
+                        <h3 class="text-xl font-bold text-phioBlue">Mindfulness y concentración</h3>
+                        <p class="text-sm text-ink/70 leading-relaxed">Reducimos la ansiedad y el estrés con sesiones de relajación, respiración guiada y dinámicas para el día a día.</p>
+                        <ul class="space-y-2 text-sm text-ink/75">
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Gestión del estrés</li>
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Foco y concentración</li>
+                            <li class="flex gap-2"><i class="fa-solid fa-check text-phioGreen mt-1"></i> Mejor clima laboral</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ MÉTODO / STEPPER ============ -->
+    <section id="metodo" class="bg-sand py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-14 reveal">
+                <p class="eyebrow text-phioGreen text-sm mb-4">Metodología</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">El método PHIO, paso a paso</h2>
+                <p class="mt-5 text-lg text-ink/70">Un despliegue cómodo, estructurado y medible desde el primer día. Explora cada fase del proceso.</p>
+            </div>
+
+            <div class="reveal bg-canvas rounded-3xl shadow-soft border border-white/60 p-6 sm:p-10 max-w-5xl mx-auto">
+                <!-- step nav -->
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-2 border-b border-sand pb-6 mb-8">
+                    <button onclick="switchStep(1)" id="step-btn-1" class="step-btn flex-1 flex items-center gap-3 py-3 px-4 rounded-2xl text-left transition-all duration-300">
+                        <span class="step-num font-narrow font-bold text-lg w-9 h-9 rounded-full flex items-center justify-center shrink-0">01</span>
+                        <span class="font-semibold">Análisis</span>
+                    </button>
+                    <button onclick="switchStep(2)" id="step-btn-2" class="step-btn flex-1 flex items-center gap-3 py-3 px-4 rounded-2xl text-left transition-all duration-300">
+                        <span class="step-num font-narrow font-bold text-lg w-9 h-9 rounded-full flex items-center justify-center shrink-0">02</span>
+                        <span class="font-semibold">Planificación</span>
+                    </button>
+                    <button onclick="switchStep(3)" id="step-btn-3" class="step-btn flex-1 flex items-center gap-3 py-3 px-4 rounded-2xl text-left transition-all duration-300">
+                        <span class="step-num font-narrow font-bold text-lg w-9 h-9 rounded-full flex items-center justify-center shrink-0">03</span>
+                        <span class="font-semibold">Ejecución</span>
+                    </button>
+                    <button onclick="switchStep(4)" id="step-btn-4" class="step-btn flex-1 flex items-center gap-3 py-3 px-4 rounded-2xl text-left transition-all duration-300">
+                        <span class="step-num font-narrow font-bold text-lg w-9 h-9 rounded-full flex items-center justify-center shrink-0">04</span>
+                        <span class="font-semibold">Evaluación</span>
+                    </button>
+                </div>
+
+                <div class="relative min-h-[230px]">
+                    <div id="step-content-1" class="step-content space-y-5">
+                        <h3 class="text-2xl font-bold text-phioBlue">Análisis y diagnóstico inicial</h3>
+                        <p class="text-ink/70 leading-relaxed">No planificamos a ciegas. Encuestas de hábitos y satisfacción, test de condición física y evaluación de los puestos para detectar dolencias posturales y puntos críticos a resolver.</p>
+                        <div class="flex items-center gap-3 bg-phioBlue/5 border border-phioBlue/10 rounded-2xl p-4 text-sm text-phioBlue font-medium">
+                            <i class="fa-solid fa-circle-info text-lg"></i>
+                            <span>Una radiografía clara del nivel de salud y estrés de tu empresa en solo 1 semana.</span>
+                        </div>
+                    </div>
+                    <div id="step-content-2" class="step-content hidden space-y-5">
+                        <h3 class="text-2xl font-bold text-phioBlue">Planificación y diseño a medida</h3>
+                        <p class="text-ink/70 leading-relaxed">Nuestro equipo médico, deportivo y nutricional diseña un plan adaptado a los puestos y rutinas reales. Se parametriza para cada persona de forma escalable e inclusiva.</p>
+                        <div class="flex items-center gap-3 bg-phioGreen/10 border border-phioGreen/20 rounded-2xl p-4 text-sm text-ink font-medium">
+                            <i class="fa-solid fa-square-check text-lg text-phioGreen"></i>
+                            <span>Entrenamientos, mindfulness y nutrición basados en evidencia científica.</span>
+                        </div>
+                    </div>
+                    <div id="step-content-3" class="step-content hidden space-y-5">
+                        <h3 class="text-2xl font-bold text-phioBlue">Ejecución activa y coaching diario</h3>
+                        <p class="text-ink/70 leading-relaxed">Cada persona accede a su entrenador a través de la app, 24/7: seguimiento del progreso, dudas resueltas, clases virtuales y retos colaborativos que cambian hábitos de verdad.</p>
+                        <div class="flex items-center gap-3 bg-phioBlue/5 border border-phioBlue/10 rounded-2xl p-4 text-sm text-phioBlue font-medium">
+                            <i class="fa-solid fa-mobile-screen-button text-lg"></i>
+                            <span>Un entrenador y nutricionista personal en la palma de la mano.</span>
+                        </div>
+                    </div>
+                    <div id="step-content-4" class="step-content hidden space-y-5">
+                        <h3 class="text-2xl font-bold text-phioBlue">Evaluación y reporte de KPIs</h3>
+                        <p class="text-ink/70 leading-relaxed">Cada trimestre repetimos test y entregamos a RR.&nbsp;HH. informes claros: absentismo evitado, engagement y mejora de la satisfacción. La salud, medida y visible.</p>
+                        <div class="flex items-center gap-3 bg-phioGreen/10 border border-phioGreen/20 rounded-2xl p-4 text-sm text-ink font-medium">
+                            <i class="fa-solid fa-chart-simple text-lg text-phioGreen"></i>
+                            <span>El retorno de tu inversión, directo en tu panel de Recursos Humanos.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ESPACIOS / BODYTONE ============ -->
+    <section class="bg-canvas py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+            <div class="lg:col-span-6 space-y-6 reveal">
+                <p class="eyebrow text-phioGreen text-sm">Espacios saludables</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">Diseñamos áreas de bienestar en tu oficina</h2>
+                <p class="text-lg text-ink/70">¿Quieres crear un espacio saludable en tu empresa? Contamos con acuerdos con las mejores marcas de equipamiento fitness del mercado para diseñar, planificar y equipar áreas de bienestar corporativo completamente a medida.</p>
+                <div class="space-y-5 pt-2">
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-sage text-phioBlue flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-compass-drafting"></i></div>
+                        <div><h4 class="font-bold text-ink">Estudio y diseño del espacio</h4><p class="text-sm text-ink/65">Aprovechamos cualquier sala, oficina o terraza en desuso y la transformamos en un área de bienestar funcional y motivadora.</p></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-sage text-phioBlue flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-dumbbell"></i></div>
+                        <div><h4 class="font-bold text-ink">Equipamiento fitness premium</h4><p class="text-sm text-ink/65">Trabajamos con las mejores marcas del sector: resistencia, cardio y peso libre de primera categoría, con garantía de servicio.</p></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="w-11 h-11 rounded-xl bg-sage text-phioBlue flex items-center justify-center text-lg shrink-0"><i class="fa-solid fa-star"></i></div>
+                        <div><h4 class="font-bold text-ink">Las mejores marcas del mercado</h4><p class="text-sm text-ink/65">Seleccionamos el equipamiento óptimo para cada proyecto, asegurando calidad, durabilidad y la mejor experiencia de usuario.</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-6 reveal" data-delay="1">
+                <div class="relative">
+                    <div class="absolute -top-5 -left-5 w-full h-full bg-phioGreen rounded-[2.5rem] -z-10"></div>
+                    <div class="tint rounded-[2.5rem] shadow-soft border-[6px] border-white">
+                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=900&q=80" alt="Gimnasio corporativo moderno" class="w-full h-[420px] object-cover" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ PLANES ============ -->
+    <section id="planes" class="bg-sand py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-16 reveal">
+                <p class="eyebrow text-phioGreen text-sm mb-4">Soluciones B2B</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">Planes que crecen contigo</h2>
+                <p class="mt-5 text-lg text-ink/70">Tres niveles para encontrar el encaje exacto con el tamaño y los objetivos de tu organización.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-7 items-stretch">
+                <!-- Basic -->
+                <div class="reveal lift bg-canvas rounded-3xl p-8 shadow-soft border border-white/60 flex flex-col" data-delay="1">
+                    <h3 class="font-narrow text-2xl font-bold text-phioBlue uppercase tracking-wide">Basic</h3>
+                    <p class="text-sm text-ink/60 mt-2 mb-6">Para empresas que dan sus primeros pasos en bienestar.</p>
+                    <ul class="space-y-3 text-sm flex-grow">
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Programas deportivos básicos</li>
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Clases virtuales y webinars</li>
+                        <li class="flex gap-3 text-ink/35"><i class="fa-solid fa-minus mt-0.5"></i> Entrenamientos personalizados</li>
+                        <li class="flex gap-3 text-ink/35"><i class="fa-solid fa-minus mt-0.5"></i> Planes nutricionales</li>
+                        <li class="flex gap-3 text-ink/35"><i class="fa-solid fa-minus mt-0.5"></i> Diseño de áreas saludables</li>
+                    </ul>
+                    <a href="#contacto" class="mt-8 text-center border border-phioBlue/20 text-phioBlue hover:bg-phioBlue hover:text-white font-semibold py-3 rounded-full transition-all duration-300">Más información</a>
+                </div>
+
+                <!-- Premium (destacado) -->
+                <div class="reveal lift relative bg-phioBlue text-white rounded-3xl p-8 shadow-glow flex flex-col md:-translate-y-3" data-delay="2">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-phioGreen text-phioBlue text-[11px] font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow">
+                        <span class="chev-drift flex text-[8px]"><i class="fa-solid fa-chevron-right"></i><i class="fa-solid fa-chevron-right -ml-0.5"></i><i class="fa-solid fa-chevron-right -ml-0.5"></i></span>
+                        Recomendado
+                    </div>
+                    <h3 class="font-narrow text-2xl font-bold uppercase tracking-wide pt-2">Premium</h3>
+                    <p class="text-sm text-blue-100/80 mt-2 mb-6">El acompañamiento ideal para la mayoría de equipos.</p>
+                    <ul class="space-y-3 text-sm flex-grow">
+                        <li class="flex gap-3"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Programas deportivos completos</li>
+                        <li class="flex gap-3"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Clases y webinars interactivos</li>
+                        <li class="flex gap-3"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Entrenamientos personalizados</li>
+                        <li class="flex gap-3"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Asesoramiento nutricional</li>
+                        <li class="flex gap-3 text-blue-200/50"><i class="fa-solid fa-minus mt-0.5"></i> Diseño de áreas saludables</li>
+                    </ul>
+                    <a href="#contacto" class="mt-8 text-center bg-phioGreen text-phioBlue hover:bg-white font-semibold py-3 rounded-full transition-all duration-300">Solicitar demo</a>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="reveal lift bg-canvas rounded-3xl p-8 shadow-soft border border-white/60 flex flex-col" data-delay="3">
+                    <h3 class="font-narrow text-2xl font-bold text-phioBlue uppercase tracking-wide">Enterprise</h3>
+                    <p class="text-sm text-ink/60 mt-2 mb-6">Transformación de salud integral 360° para organizaciones.</p>
+                    <ul class="space-y-3 text-sm flex-grow">
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Todo lo del plan Premium</li>
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Consultoría de áreas saludables</li>
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Áreas fitness con equipamiento premium</li>
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Escáner de composición corporal</li>
+                        <li class="flex gap-3 text-ink/80"><i class="fa-solid fa-check text-phioGreen mt-0.5"></i> Soporte dedicado prioritario</li>
+                    </ul>
+                    <a href="#contacto" class="mt-8 text-center border border-phioBlue/20 text-phioBlue hover:bg-phioBlue hover:text-white font-semibold py-3 rounded-full transition-all duration-300">Más información</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ONBOARDING / RGPD ============ -->
+    <section class="bg-canvas py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
+            <div class="lg:col-span-5 order-last lg:order-first reveal">
+                <div class="tint arch shadow-soft border-[6px] border-white">
+                    <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" alt="Equipo profesional trabajando en un entorno saludable" class="w-full h-[420px] object-cover" loading="lazy">
+                </div>
+            </div>
+            <div class="lg:col-span-7 space-y-6 reveal" data-delay="1">
+                <p class="eyebrow text-phioGreen text-sm">Onboarding sencillo</p>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">Arrancamos en días, no en meses</h2>
+                <p class="text-lg text-ink/70">Sin instalaciones, sin infraestructura propia, sin fricciones. PHIO se integra en el día a día de tu equipo de forma inmediata, desde cualquier lugar y con soporte en cada paso:</p>
+                <div class="space-y-5">
+                    <div class="flex items-start gap-4">
+                        <i class="fa-solid fa-shield-halved text-phioGreen text-xl mt-1"></i>
+                        <div><h4 class="font-bold text-ink">Cumplimiento estricto del RGPD</h4><p class="text-sm text-ink/65">Protocolos rigurosos que salvaguardan de forma confidencial los datos de salud de cada empleado.</p></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fa-solid fa-box-open text-phioGreen text-xl mt-1"></i>
+                        <div><h4 class="font-bold text-ink">Sales kit de comunicación</h4><p class="text-sm text-ink/65">Folletos, cartelería y materiales listos para involucrar a tu equipo desde el día uno.</p></div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i class="fa-solid fa-headset text-phioGreen text-xl mt-1"></i>
+                        <div><h4 class="font-bold text-ink">Soporte técnico continuo</h4><p class="text-sm text-ink/65">Un equipo dedicado que resuelve cualquier duda sobre la app con agilidad.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ CITA DE IMPACTO ============ -->
+    <section class="relative bg-gradient-to-br from-phioBlue to-phioDark text-white py-24 overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.07]">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[760px] h-[760px] border-2 border-white rounded-full"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[540px] h-[540px] border border-white rounded-full"></div>
+        </div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 space-y-7 reveal">
+            <span class="chev-drift inline-flex text-phioGreen text-3xl"><i class="fa-solid fa-chevron-right"></i><i class="fa-solid fa-chevron-right -ml-2"></i><i class="fa-solid fa-chevron-right -ml-2"></i></span>
+            <blockquote class="font-serif italic text-2xl sm:text-3xl lg:text-4xl leading-snug">
+                “No somos solo una app de entrenamiento; somos el socio estratégico que convierte la salud de tu equipo en rentabilidad humana.”
+            </blockquote>
+            <div class="w-14 h-0.5 bg-phioGreen mx-auto rounded-full"></div>
+            <p class="eyebrow text-phioGreen text-sm">Equipo PHIO Business</p>
+        </div>
+    </section>
+
+    <!-- ============ CONTACTO ============ -->
+    <section id="contacto" class="bg-canvas py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-14">
+            <div class="lg:col-span-5 space-y-8 reveal">
+                <div>
+                    <p class="eyebrow text-phioGreen text-sm mb-4">¿Hablamos?</p>
+                    <h2 class="text-4xl sm:text-5xl font-extrabold text-phioBlue tracking-tight leading-tight">Conozcamos las necesidades de tu empresa</h2>
+                    <p class="mt-5 text-lg text-ink/70">Pide una demo o una auditoría postural básica de tu centro y empieza a transformar la productividad de tu organización.</p>
+                </div>
+                <div class="space-y-4">
+                    <a href="mailto:info@phiobusiness.es" class="flex items-center gap-4 group">
+                        <span class="w-12 h-12 rounded-2xl bg-phioBlue/10 text-phioBlue flex items-center justify-center text-lg"><i class="fa-solid fa-envelope"></i></span>
+                        <span><span class="block text-xs uppercase tracking-wide text-ink/45 font-semibold">Email</span><span class="font-semibold text-ink group-hover:text-phioBlue transition-colors">info@phiobusiness.es</span></span>
+                    </a>
+                    <a href="tel:+34625277697" class="flex items-center gap-4 group">
+                        <span class="w-12 h-12 rounded-2xl bg-phioGreen/15 text-phioBlue flex items-center justify-center text-lg"><i class="fa-solid fa-phone"></i></span>
+                        <span><span class="block text-xs uppercase tracking-wide text-ink/45 font-semibold">Atención directa</span><span class="font-semibold text-ink group-hover:text-phioBlue transition-colors">+34 625 277 697</span></span>
+                    </a>
+                    <div class="flex items-center gap-4">
+                        <span class="w-12 h-12 rounded-2xl bg-sage text-phioBlue flex items-center justify-center text-lg"><i class="fa-solid fa-earth-europe"></i></span>
+                        <span><span class="block text-xs uppercase tracking-wide text-ink/45 font-semibold">Servicio</span><span class="font-semibold text-ink">100% online · Disponible en toda España</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 reveal" data-delay="1">
+                <form id="demo-request-form" onsubmit="handleFormSubmit(event)" class="bg-white rounded-3xl border border-sand shadow-soft p-8 space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="space-y-2">
+                            <label for="form-name" class="text-xs font-semibold uppercase tracking-wide text-ink/55">Nombre de contacto</label>
+                            <input type="text" id="form-name" required class="w-full px-4 py-3 bg-canvas border border-sand rounded-xl focus:outline-none focus:border-phioBlue focus:ring-2 focus:ring-phioBlue/15 transition" placeholder="Tu nombre completo">
+                        </div>
+                        <div class="space-y-2">
+                            <label for="form-company" class="text-xs font-semibold uppercase tracking-wide text-ink/55">Empresa</label>
+                            <input type="text" id="form-company" required class="w-full px-4 py-3 bg-canvas border border-sand rounded-xl focus:outline-none focus:border-phioBlue focus:ring-2 focus:ring-phioBlue/15 transition" placeholder="Tu empresa S.L / S.A">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="space-y-2">
+                            <label for="form-email" class="text-xs font-semibold uppercase tracking-wide text-ink/55">Correo corporativo</label>
+                            <input type="email" id="form-email" required class="w-full px-4 py-3 bg-canvas border border-sand rounded-xl focus:outline-none focus:border-phioBlue focus:ring-2 focus:ring-phioBlue/15 transition" placeholder="ejemplo@tuempresa.com">
+                        </div>
+                        <div class="space-y-2">
+                            <label for="form-phone" class="text-xs font-semibold uppercase tracking-wide text-ink/55">Teléfono</label>
+                            <input type="tel" id="form-phone" required class="w-full px-4 py-3 bg-canvas border border-sand rounded-xl focus:outline-none focus:border-phioBlue focus:ring-2 focus:ring-phioBlue/15 transition" placeholder="Número de contacto">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="form-plan" class="text-xs font-semibold uppercase tracking-wide text-ink/55">Plan de interés</label>
+                        <select id="form-plan" class="w-full px-4 py-3 bg-canvas border border-sand rounded-xl focus:outline-none focus:border-phioBlue focus:ring-2 focus:ring-phioBlue/15 transition">
+                            <option value="Selecciona un plan">— Selecciona un plan —</option>
+                            <option value="Plan Basic">Plan Basic</option>
+                            <option value="Plan Premium">Plan Premium (Recomendado)</option>
+                            <option value="Plan Enterprise">Plan Enterprise</option>
+                            <option value="Consultoría personalizada">Consultoría personalizada</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="form-message" class="text-xs font-semibold uppercase tracking-wide text-ink/55">Mensaje</label>
+                        <textarea id="form-message" rows="4" class="w-full px-4 py-3 bg-canvas border border-sand rounded-xl focus:outline-none focus:border-phioBlue focus:ring-2 focus:ring-phioBlue/15 transition" placeholder="Cuéntanos cuántos sois y qué objetivos os gustaría marcaros..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-phioBlue text-white hover:bg-phioGreen hover:text-phioBlue font-bold py-4 rounded-full transition-all duration-300 shadow-soft">
+                        Enviar solicitud de demostración
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="bg-phioDark text-blue-100/70 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div class="space-y-4">
+                <img src="Blanco.png" alt="PHIO Business" class="h-11 w-auto object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <span style="display:none" class="font-narrow font-bold text-2xl tracking-tight text-white">lPHiO <span class="text-sm font-normal tracking-[0.3em] uppercase opacity-80">business</span></span>
+                <p class="text-sm">Socio estratégico de bienestar empresarial. Comprometidos con la salud y el rendimiento de tu equipo.</p>
+                <div class="flex gap-3 pt-1">
+                    <a href="https://linkedin.com/company/phiobusiness/" target="_blank" rel="noopener" aria-label="LinkedIn de PHIO Business" class="w-9 h-9 rounded-full bg-white/10 hover:bg-phioGreen hover:text-phioDark flex items-center justify-center transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/phiobusiness/" target="_blank" rel="noopener" aria-label="Instagram de PHIO Business" class="w-9 h-9 rounded-full bg-white/10 hover:bg-phioGreen hover:text-phioDark flex items-center justify-center transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <h4 class="eyebrow text-white text-xs mb-2">Navegación</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#inicio" class="hover:text-phioGreen transition-colors">Inicio</a></li>
+                    <li><a href="#nosotros" class="hover:text-phioGreen transition-colors">Nosotros</a></li>
+                    <li><a href="#reto" class="hover:text-phioGreen transition-colors">El reto</a></li>
+                    <li><a href="#impacto" class="hover:text-phioGreen transition-colors">Impacto / ROI</a></li>
+                    <li><a href="#metodo" class="hover:text-phioGreen transition-colors">Método</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="eyebrow text-white text-xs mb-2">Servicios</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-phioGreen transition-colors">App fitness y coaching</a></li>
+                    <li><a href="#" class="hover:text-phioGreen transition-colors">Nutrición equilibrada</a></li>
+                    <li><a href="#" class="hover:text-phioGreen transition-colors">Mindfulness</a></li>
+                    <li><a href="#" class="hover:text-phioGreen transition-colors">Gimnasios corporativos</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="eyebrow text-white text-xs mb-2">Cumplimiento</h4>
+                <ul class="space-y-2 text-sm">
+                    <li>Reglamento General de Protección de Datos (RGPD).</li>
+                    <li>Certificado de seguridad de información médica.</li>
+                    <li>Alianza exclusiva Bodytone.</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="border-white/10 max-w-7xl mx-auto mb-6">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-blue-200/50">
+            <p>&copy; 2026 PHIO Business. Todos los derechos reservados.</p>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-blue-100 transition-colors">Privacidad</a>
+                <a href="#" class="hover:text-blue-100 transition-colors">Términos</a>
+                <a href="#" class="hover:text-blue-100 transition-colors">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============ MODAL ÉXITO ============ -->
+    <div id="success-modal" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-6 bg-phioDark/60 backdrop-blur-sm">
+        <div class="bg-canvas rounded-3xl max-w-md w-full p-8 shadow-glow border border-sand text-center space-y-5">
+            <div class="w-16 h-16 bg-phioGreen/15 text-phioGreen rounded-full flex items-center justify-center text-3xl mx-auto">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h4 id="modal-title" class="text-2xl font-bold text-phioBlue">¡Petición enviada!</h4>
+            <p id="modal-text" class="text-ink/70 text-sm leading-relaxed">Hemos registrado los datos de tu empresa. Un consultor de PHIO Business te contactará en menos de 24 horas laborables.</p>
+            <button onclick="closeSuccessModal()" class="w-full py-3 bg-phioBlue text-white hover:bg-phioGreen hover:text-phioBlue font-bold rounded-full transition-all duration-300">Entendido</button>
+        </div>
+    </div>
+
+    <!-- ============ JS ============ -->
+    <script>
+        // --- Mobile menu ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+        // --- Header scroll state + progress bar ---
+        const header = document.getElementById('site-header');
+        const progress = document.getElementById('progress');
+        const navLogo = document.getElementById('nav-logo');
+        function onScroll() {
+            if (window.scrollY > 30) {
+                header.classList.add('bg-canvas/95', 'backdrop-blur-md', 'shadow-soft');
+                if (navLogo) navLogo.style.height = '2.75rem';
+            } else {
+                if (navLogo) navLogo.style.height = '3.5rem';
+                header.classList.remove('bg-canvas/95', 'backdrop-blur-md', 'shadow-soft');
+            }
+            const h = document.documentElement;
+            const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+            progress.style.width = scrolled + '%';
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // --- Scroll reveals ---
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // --- ROI calculator (simplificado: un solo input) ---
+        const AVG_SALARY = 32000;     // salario medio bruto anual (€)
+        const ABSENT_RATE = 0.045;    // tasa de absentismo media (4,5%)
+        const employeesRange = document.getElementById('employees-range');
+        const employeesVal = document.getElementById('employees-val');
+        const savingNet = document.getElementById('saving-net');
+        const costCurrent = document.getElementById('cost-current');
+
+        function calculateROI() {
+            const employees = parseInt(employeesRange.value, 10);
+            employeesVal.textContent = employees.toLocaleString('es-ES');
+            const costPerLeaveDay = (AVG_SALARY * 1.35) / 220;          // + cotizaciones empresa (~35%)
+            const workDaysLost = employees * 220 * ABSENT_RATE;
+            const currentCost = workDaysLost * costPerLeaveDay * 1.5;   // coste directo + indirecto
+            const saving = currentCost * 0.36;                          // reducción hasta 36%
+            costCurrent.textContent = Math.round(currentCost).toLocaleString('es-ES') + ' €';
+            savingNet.textContent = Math.round(saving).toLocaleString('es-ES') + ' €';
+        }
+        employeesRange.addEventListener('input', calculateROI);
+        calculateROI();
+
+        // --- Stepper ---
+        function switchStep(n) {
+            document.querySelectorAll('.step-btn').forEach(btn => {
+                btn.classList.remove('bg-phioBlue', 'text-white');
+                btn.querySelector('.step-num').classList.remove('bg-white', 'text-phioBlue');
+                btn.querySelector('.step-num').classList.add('bg-sand', 'text-phioBlue');
+            });
+            const active = document.getElementById('step-btn-' + n);
+            active.classList.add('bg-phioBlue', 'text-white');
+            active.querySelector('.step-num').classList.remove('bg-sand', 'text-phioBlue');
+            active.querySelector('.step-num').classList.add('bg-white', 'text-phioBlue');
+
+            document.querySelectorAll('.step-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('step-content-' + n).classList.remove('hidden');
+        }
+        switchStep(1);
+
+        // --- Form submit ---
+        const successModal = document.getElementById('success-modal');
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('form-name').value.trim();
+            const company = document.getElementById('form-company').value.trim();
+            document.getElementById('modal-title').textContent = name ? ('¡Gracias, ' + name + '!') : '¡Petición recibida!';
+            document.getElementById('modal-text').innerHTML = 'Hemos registrado el interés de <strong>' + (company || 'tu empresa') + '</strong>. Un consultor deportivo y nutricional de PHIO Business te contactará para agendar tu sesión inicial.';
+            successModal.classList.remove('hidden');
+            document.getElementById('demo-request-form').reset();
+        }
+        function closeSuccessModal() { successModal.classList.add('hidden'); }
+        successModal.addEventListener('click', (e) => { if (e.target === successModal) closeSuccessModal(); });
+    </script>
+</body>
+</html>
